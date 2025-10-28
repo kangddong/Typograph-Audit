@@ -1,17 +1,322 @@
-<h2>Rectangle Creator</h2>
-<p>Count: <input id="count" type="number" value="5"></p>
-<button id="create">Create</button>
-<button id="cancel">Cancel</button>
-<script>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Typography Audit</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 12px;
+      line-height: 1.4;
+      color: #333;
+      background: #fff;
+      padding: 16px;
+    }
+    
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #000;
+    }
+    
+    .controls {
+      margin-bottom: 16px;
+      display: flex;
+      gap: 8px;
+    }
+    
+    button {
+      padding: 8px 16px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #fff;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    button:hover {
+      background: #f5f5f5;
+    }
+    
+    button.primary {
+      background: #0969da;
+      color: white;
+      border-color: #0969da;
+    }
+    
+    button.primary:hover {
+      background: #0860ca;
+    }
+    
+    .status {
+      margin-bottom: 16px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+    }
+    
+    .status.info {
+      background: #dbeafe;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+    
+    .status.success {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+    
+    .typography-list {
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    
+    .typography-item {
+      padding: 12px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    
+    .typography-item:last-child {
+      border-bottom: none;
+    }
+    
+    .typography-item:nth-child(even) {
+      background: #fafafa;
+    }
+    
+    .typography-main {
+      flex: 1;
+    }
+    
+    .font-info {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    
+    .font-details {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+    
+    .font-text {
+      font-size: 10px;
+      color: #888;
+      font-style: italic;
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .typography-meta {
+      font-size: 10px;
+      color: #999;
+      text-align: right;
+      flex-shrink: 0;
+      margin-left: 12px;
+    }
+    
+    .color-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      border: 1px solid #ddd;
+      display: inline-block;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666;
+    }
+    
+    .summary {
+      margin-bottom: 16px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      font-size: 11px;
+    }
+    
+    .export-section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #e5e5e5;
+    }
+  </style>
+</head>
+<body>
+  <h1>Typography Audit</h1>
+  
+  <div class="controls">
+    <button id="extract" class="primary">Extract Typography</button>
+    <button id="export">Export CSV</button>
+    <button id="close">Close</button>
+  </div>
+  
+  <div id="status" class="status info" style="display: none;">
+    Ready to extract typography from selected elements
+  </div>
+  
+  <div id="summary" class="summary" style="display: none;">
+    <strong id="total-count">0</strong> text elements found
+  </div>
+  
+  <div id="typography-container">
+    <div class="empty-state">
+      <p>Select frames, sections, or components and click "Extract Typography" to analyze text styles.</p>
+      <p style="margin-top: 8px; font-size: 10px; color: #999;">If nothing is selected, the entire page will be scanned.</p>
+    </div>
+  </div>
 
-document.getElementById('create').onclick = () => {
-  const textbox = document.getElementById('count');
-  const count = parseInt(textbox.value, 10);
-  parent.postMessage({ pluginMessage: { type: 'create-shapes', count } }, '*')
-}
-
-document.getElementById('cancel').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
-}
-
-</script>
+  <script>
+    let currentData = [];
+    
+    // UI 요소들
+    const extractBtn = document.getElementById('extract');
+    const exportBtn = document.getElementById('export');
+    const closeBtn = document.getElementById('close');
+    const statusDiv = document.getElementById('status');
+    const summaryDiv = document.getElementById('summary');
+    const containerDiv = document.getElementById('typography-container');
+    const totalCountSpan = document.getElementById('total-count');
+    
+    // 버튼 이벤트
+    extractBtn.onclick = () => {
+      showStatus('Extracting typography...', 'info');
+      parent.postMessage({ pluginMessage: { type: 'extract-typography' } }, '*');
+    };
+    
+    exportBtn.onclick = () => {
+      if (currentData.length > 0) {
+        exportToCSV(currentData);
+      }
+    };
+    
+    closeBtn.onclick = () => {
+      parent.postMessage({ pluginMessage: { type: 'close-plugin' } }, '*');
+    };
+    
+    // 상태 메시지 표시
+    function showStatus(message, type = 'info') {
+      statusDiv.textContent = message;
+      statusDiv.className = `status ${type}`;
+      statusDiv.style.display = 'block';
+    }
+    
+    // RGB를 hex 색상으로 변환
+    function rgbToHex(rgb) {
+      if (!rgb) return '#000000';
+      const r = Math.round(rgb.r * 255);
+      const g = Math.round(rgb.g * 255);
+      const b = Math.round(rgb.b * 255);
+      return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    }
+    
+    // Typography 데이터 렌더링
+    function renderTypography(data) {
+      currentData = data;
+      
+      if (data.length === 0) {
+        containerDiv.innerHTML = '<div class="empty-state"><p>No text elements found in the selected area.</p></div>';
+        summaryDiv.style.display = 'none';
+        return;
+      }
+      
+      // 요약 정보 표시
+      totalCountSpan.textContent = data.length;
+      summaryDiv.style.display = 'block';
+      
+      // 리스트 생성
+      const listHTML = data.map(item => {
+        const colorHex = rgbToHex(item.textColor);
+        const lineHeightStr = typeof item.lineHeight === 'object' ? 
+          `${Math.round(item.lineHeight.value)}${item.lineHeight.unit}` : 
+          item.lineHeight.toString();
+        const letterSpacingStr = typeof item.letterSpacing === 'object' ? 
+          `${item.letterSpacing.value}${item.letterSpacing.unit}` : 
+          item.letterSpacing.toString();
+        
+        return `
+          <div class="typography-item">
+            <div class="typography-main">
+              <div class="font-info">
+                ${item.fontFamily} ${item.fontWeight}
+              </div>
+              <div class="font-details">
+                <span class="color-swatch" style="background-color: ${colorHex}"></span>
+                ${item.fontSize}px / ${lineHeightStr} / ${letterSpacingStr}
+              </div>
+              <div class="font-text">"${item.characters.substring(0, 30)}${item.characters.length > 30 ? '...' : ''}"</div>
+            </div>
+            <div class="typography-meta">
+              ${item.location.layerName}<br>
+              (${item.location.x}, ${item.location.y})
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      containerDiv.innerHTML = `<div class="typography-list">${listHTML}</div>`;
+    }
+    
+    // CSV 내보내기
+    function exportToCSV(data) {
+      const headers = ['Font Family', 'Font Weight', 'Font Size', 'Line Height', 'Letter Spacing', 'Text Color', 'Text Content', 'Layer Name', 'X', 'Y'];
+      
+      const csvData = data.map(item => [
+        item.fontFamily,
+        item.fontWeight,
+        item.fontSize,
+        typeof item.lineHeight === 'object' ? `${item.lineHeight.value}${item.lineHeight.unit}` : item.lineHeight,
+        typeof item.letterSpacing === 'object' ? `${item.letterSpacing.value}${item.letterSpacing.unit}` : item.letterSpacing,
+        rgbToHex(item.textColor),
+        `"${item.characters.replace(/"/g, '""')}"`,
+        item.location.layerName,
+        item.location.x,
+        item.location.y
+      ]);
+      
+      const csv = [headers, ...csvData].map(row => row.join(',')).join('\n');
+      
+      // 다운로드
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'typography-audit.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      showStatus('CSV exported successfully!', 'success');
+    }
+    
+    // 플러그인에서 메시지 받기
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      
+      if (msg.type === 'typography-extracted') {
+        showStatus(`Found ${msg.data.length} text elements`, 'success');
+        renderTypography(msg.data);
+      }
+    };
+  </script>
+</body>
+</html>
