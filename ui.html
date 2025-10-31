@@ -12,61 +12,110 @@
     
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 12px;
-      line-height: 1.4;
-      color: #333;
-      background: #fff;
-      padding: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--figma-color-text, #333);
+      background: var(--figma-color-bg, #fff);
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .container {
+      max-width: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      gap: 16px;
+    }
+    
+    .header {
+      flex-shrink: 0;
     }
     
     h1 {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 600;
       margin-bottom: 16px;
-      color: #000;
+      color: var(--figma-color-text, #000);
     }
     
     .controls {
-      margin-bottom: 16px;
       display: flex;
-      gap: 8px;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
     }
     
     button {
-      padding: 8px 16px;
-      border: 1px solid #ddd;
+      padding: 10px 16px;
+      border: 1px solid var(--figma-color-border, #ddd);
       border-radius: 6px;
-      background: #fff;
-      font-size: 12px;
+      background: var(--figma-color-bg, #fff);
+      font-size: 13px;
       cursor: pointer;
       transition: all 0.2s ease;
+      min-width: 120px;
+      white-space: nowrap;
     }
     
     button:hover {
-      background: #f5f5f5;
+      background: var(--figma-color-bg-hover, #f5f5f5);
     }
     
     button.primary {
-      background: #0969da;
-      color: white;
-      border-color: #0969da;
+      background: var(--figma-color-bg-brand, #0969da);
+      color: var(--figma-color-text-onbrand, white);
+      border-color: var(--figma-color-bg-brand, #0969da);
     }
     
     button.primary:hover {
-      background: #0860ca;
+      background: var(--figma-color-bg-brand-hover, #0860ca);
     }
     
     .status {
-      margin-bottom: 16px;
-      padding: 8px 12px;
+      padding: 12px 20px 12px 16px;
       border-radius: 6px;
-      font-size: 11px;
+      font-size: 12px;
+      flex-shrink: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .status-content {
+      flex: 1;
+    }
+    
+    .status-close {
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 0;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: inherit;
+      opacity: 0.7;
+      transition: all 0.2s ease;
+    }
+    
+    .status-close:hover {
+      opacity: 1;
+      background: rgba(0, 0, 0, 0.1);
     }
     
     .status.info {
-      background: #dbeafe;
-      color: #1e40af;
-      border: 1px solid #bfdbfe;
+      background: var(--figma-color-bg-secondary, #dbeafe);
+      color: var(--figma-color-text-secondary, #1e40af);
+      border: 1px solid var(--figma-color-border-secondary, #bfdbfe);
     }
     
     .status.success {
@@ -75,18 +124,132 @@
       border: 1px solid #bbf7d0;
     }
     
-    .typography-list {
-      border: 1px solid #e5e5e5;
+    .status.error {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+    
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    
+    .summary {
+      padding: 16px;
+      background: var(--figma-color-bg-secondary, #f8f9fa);
       border-radius: 6px;
-      max-height: 280px;
+      font-size: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+    
+    .typography-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    
+    .typography-list {
+      border: 1px solid var(--figma-color-border, #e5e5e5);
+      border-radius: 6px;
+      flex: 1;
       overflow-y: auto;
+      min-height: 300px;
+      max-height: calc(100vh - 200px);
+    }
+    
+    .font-category {
+      border-bottom: 1px solid var(--figma-color-border, #e5e5e5);
+    }
+    
+    .font-category:last-child {
+      border-bottom: none;
+    }
+    
+    .font-category-header {
+      padding: 16px;
+      background: var(--figma-color-bg-secondary, #f8f9fa);
+      border-bottom: 1px solid var(--figma-color-border, #e5e5e5);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    .font-category-header:hover {
+      background: var(--figma-color-bg-hover, #f0f0f0);
+    }
+    
+    .font-category-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .font-category-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--figma-color-text, #000);
+    }
+    
+    .font-category-count {
+      background: var(--figma-color-bg-brand, #0969da);
+      color: var(--figma-color-text-onbrand, white);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    
+    .font-category-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    
+    .find-button {
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      background: var(--figma-color-bg-brand, #0969da);
+      color: var(--figma-color-text-onbrand, white);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .find-button:hover {
+      background: var(--figma-color-bg-brand-hover, #0860ca);
+    }
+    
+    .collapse-icon {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.2s ease;
+    }
+    
+    .collapse-icon.collapsed {
+      transform: rotate(-90deg);
+    }
+    
+    .font-category-content {
+      display: block;
+    }
+    
+    .font-category-content.collapsed {
+      display: none;
     }
     
     .typography-item {
-      padding: 12px;
-      border-bottom: 1px solid #f0f0f0;
-      display: flex;
-      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--figma-color-border, #f0f0f0);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
       align-items: flex-start;
     }
     
@@ -95,94 +258,313 @@
     }
     
     .typography-item:nth-child(even) {
-      background: #fafafa;
+      background: var(--figma-color-bg-secondary, rgba(0,0,0,0.02));
+    }
+    
+    /* Weight 서브카테고리 스타일 */
+    .weight-category {
+      border-bottom: 1px solid var(--figma-color-border, #f0f0f0);
+    }
+    
+    .weight-category:last-child {
+      border-bottom: none;
+    }
+    
+    .weight-category-header {
+      padding: 12px 16px;
+      background: var(--figma-color-bg, rgba(0,0,0,0.03));
+      border-bottom: 1px solid var(--figma-color-border, #f0f0f0);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    .weight-category-header:hover {
+      background: var(--figma-color-bg-hover, rgba(0,0,0,0.05));
+    }
+    
+    .weight-category-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .weight-category-name {
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--figma-color-text, #333);
+    }
+    
+    .weight-category-count {
+      background: var(--figma-color-bg-secondary, #f0f0f0);
+      color: var(--figma-color-text, #666);
+      padding: 1px 6px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 500;
+    }
+    
+    .weight-category-content {
+      display: block;
+    }
+    
+    .weight-category-content.collapsed {
+      display: none;
+    }
+    
+    /* Font Size 서브카테고리 스타일 */
+    .size-category {
+      border-bottom: 1px solid var(--figma-color-border, #f8f8f8);
+    }
+    
+    .size-category:last-child {
+      border-bottom: none;
+    }
+    
+    .size-category-header {
+      padding: 10px 24px;
+      background: var(--figma-color-bg, rgba(0,0,0,0.01));
+      border-bottom: 1px solid var(--figma-color-border, #f8f8f8);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    .size-category-header:hover {
+      background: var(--figma-color-bg-hover, rgba(0,0,0,0.03));
+    }
+    
+    .size-category-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .size-category-name {
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--figma-color-text-secondary, #666);
+    }
+    
+    .size-category-count {
+      background: var(--figma-color-bg-tertiary, #e8e8e8);
+      color: var(--figma-color-text-secondary, #666);
+      padding: 1px 5px;
+      border-radius: 6px;
+      font-size: 9px;
+      font-weight: 500;
+    }
+    
+    .size-category-content {
+      display: block;
+    }
+    
+    .size-category-content.collapsed {
+      display: none;
+    }
+    
+    .collapse-icon-small {
+      width: 12px;
+      height: 12px;
+      transition: transform 0.2s ease;
+    }
+    
+    .collapse-icon-small.collapsed {
+      transform: rotate(-90deg);
+    }
+    
+    /* 실제 텍스트 아이템 (최하위 레벨) */
+    .typography-item-final {
+      padding: 8px 32px;
+      border-bottom: 1px solid var(--figma-color-border, #f5f5f5);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    
+    .typography-item-final:last-child {
+      border-bottom: none;
+    }
+    
+    .typography-item-final:nth-child(even) {
+      background: var(--figma-color-bg-secondary, rgba(0,0,0,0.01));
     }
     
     .typography-main {
-      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
     }
     
     .font-info {
-      font-weight: 500;
-      margin-bottom: 4px;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--figma-color-text, #000);
     }
     
     .font-details {
-      font-size: 11px;
-      color: #666;
-      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--figma-color-text-secondary, #666);
+      flex-wrap: wrap;
+    }
+    
+    .font-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
     }
     
     .font-text {
-      font-size: 10px;
-      color: #888;
+      font-size: 11px;
+      color: var(--figma-color-text-tertiary, #888);
       font-style: italic;
-      max-width: 200px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      word-break: break-word;
+      line-height: 1.4;
     }
     
     .typography-meta {
       font-size: 10px;
-      color: #999;
+      color: var(--figma-color-text-tertiary, #999);
       text-align: right;
       flex-shrink: 0;
-      margin-left: 12px;
+      line-height: 1.3;
     }
     
     .color-swatch {
-      width: 12px;
-      height: 12px;
-      border-radius: 2px;
-      border: 1px solid #ddd;
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      border: 1px solid var(--figma-color-border, #ddd);
       display: inline-block;
-      margin-right: 6px;
-      vertical-align: middle;
+      flex-shrink: 0;
     }
     
     .empty-state {
       text-align: center;
-      padding: 40px 20px;
-      color: #666;
+      padding: 60px 20px;
+      color: var(--figma-color-text-secondary, #666);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
     
-    .summary {
-      margin-bottom: 16px;
-      padding: 12px;
-      background: #f8f9fa;
-      border-radius: 6px;
+    .empty-state p {
+      margin-bottom: 12px;
+    }
+    
+    .empty-state .subtitle {
       font-size: 11px;
+      color: var(--figma-color-text-tertiary, #999);
+    }
+
+    /* 반응형 디자인 */
+    @media (max-width: 600px) {
+      body {
+        padding: 12px;
+      }
+      
+      h1 {
+        font-size: 16px;
+      }
+      
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      button {
+        min-width: auto;
+      }
+      
+      .typography-item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      
+      .typography-meta {
+        text-align: left;
+      }
+      
+      .font-details {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+    }
+
+    @media (min-width: 800px) {
+      .typography-item {
+        grid-template-columns: 2fr 1fr auto;
+      }
+      
+      .font-details {
+        justify-content: flex-start;
+      }
+    }
+
+    /* 스크롤바 스타일링 */
+    .typography-list::-webkit-scrollbar {
+      width: 8px;
     }
     
-    .export-section {
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid #e5e5e5;
+    .typography-list::-webkit-scrollbar-track {
+      background: var(--figma-color-bg-secondary, #f1f1f1);
+      border-radius: 4px;
+    }
+    
+    .typography-list::-webkit-scrollbar-thumb {
+      background: var(--figma-color-border, #ccc);
+      border-radius: 4px;
+    }
+    
+    .typography-list::-webkit-scrollbar-thumb:hover {
+      background: var(--figma-color-text-tertiary, #999);
     }
   </style>
 </head>
 <body>
-  <h1>Typography Audit</h1>
-  
-  <div class="controls">
-    <button id="extract" class="primary">Extract Typography</button>
-    <button id="export">Export CSV</button>
-    <button id="close">Close</button>
-  </div>
-  
-  <div id="status" class="status info" style="display: none;">
-    Ready to extract typography from selected elements
-  </div>
-  
-  <div id="summary" class="summary" style="display: none;">
-    <strong id="total-count">0</strong> text elements found
-  </div>
-  
-  <div id="typography-container">
-    <div class="empty-state">
-      <p>Select frames, sections, or components and click "Extract Typography" to analyze text styles.</p>
-      <p style="margin-top: 8px; font-size: 10px; color: #999;">If nothing is selected, the entire page will be scanned.</p>
+  <div class="container">
+    <div class="header">
+      <h1>Typography Audit</h1>
+      
+      <div class="controls">
+        <button id="extract-all" class="primary">Extract All</button>
+        <button id="extract-area">Extract Area</button>
+        <button id="close">Close</button>
+      </div>
+      
+      <div id="status" class="status info" style="display: none;">
+        <div class="status-content" id="status-content">
+          Ready to extract typography from selected elements
+        </div>
+        <button class="status-close" onclick="closeStatus()" title="Close">
+          ✕
+        </button>
+      </div>
+    </div>
+    
+    <div class="content">
+      <div id="summary" class="summary" style="display: none;">
+        <strong id="total-count">0</strong> text elements found
+      </div>
+      
+      <div id="typography-container" class="typography-container">
+        <div class="empty-state">
+          <p>Click "Extract All" to scan the entire page, or select specific elements and click "Extract Area".</p>
+          <p class="subtitle">Extract All: Scans the entire page for all typography.<br>Extract Area: Scans only selected frames, sections, or components.</p>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -190,24 +572,24 @@
     let currentData = [];
     
     // UI 요소들
-    const extractBtn = document.getElementById('extract');
-    const exportBtn = document.getElementById('export');
+    const extractAllBtn = document.getElementById('extract-all');
+    const extractAreaBtn = document.getElementById('extract-area');
     const closeBtn = document.getElementById('close');
     const statusDiv = document.getElementById('status');
+    const statusContentDiv = document.getElementById('status-content');
     const summaryDiv = document.getElementById('summary');
     const containerDiv = document.getElementById('typography-container');
     const totalCountSpan = document.getElementById('total-count');
     
     // 버튼 이벤트
-    extractBtn.onclick = () => {
-      showStatus('Extracting typography...', 'info');
-      parent.postMessage({ pluginMessage: { type: 'extract-typography' } }, '*');
+    extractAllBtn.onclick = () => {
+      showStatus('Extracting typography from entire page...', 'info');
+      parent.postMessage({ pluginMessage: { type: 'extract-all-typography' } }, '*');
     };
     
-    exportBtn.onclick = () => {
-      if (currentData.length > 0) {
-        exportToCSV(currentData);
-      }
+    extractAreaBtn.onclick = () => {
+      showStatus('Extracting typography from selected area...', 'info');
+      parent.postMessage({ pluginMessage: { type: 'extract-area-typography' } }, '*');
     };
     
     closeBtn.onclick = () => {
@@ -216,9 +598,14 @@
     
     // 상태 메시지 표시
     function showStatus(message, type = 'info') {
-      statusDiv.textContent = message;
+      statusContentDiv.textContent = message;
       statusDiv.className = `status ${type}`;
-      statusDiv.style.display = 'block';
+      statusDiv.style.display = 'flex';
+    }
+    
+    // 상태 메시지 닫기
+    function closeStatus() {
+      statusDiv.style.display = 'none';
     }
     
     // RGB를 hex 색상으로 변환
@@ -230,7 +617,113 @@
       return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
     }
     
-    // Typography 데이터 렌더링
+    // Weight를 숫자로 변환 (정렬용)
+    function parseWeight(weightStr) {
+      const weightMap = {
+        'Thin': 100, 'ExtraLight': 200, 'Light': 300, 'Regular': 400, 'Normal': 400,
+        'Medium': 500, 'SemiBold': 600, 'Semi Bold': 600, 'Bold': 700, 'ExtraBold': 800, 'Black': 900
+      };
+      
+      // 숫자가 포함된 경우 (예: "Semi Bold", "600")
+      const numMatch = weightStr.match(/\d+/);
+      if (numMatch) {
+        return parseInt(numMatch[0]);
+      }
+      
+      return weightMap[weightStr] || 400;
+    }
+    
+    // 폰트별로 중첩 그룹핑하고 정렬
+    function groupAndSortTypography(data) {
+      // 1. 폰트 패밀리별로 그룹핑
+      const grouped = {};
+      
+      data.forEach(item => {
+        if (!grouped[item.fontFamily]) {
+          grouped[item.fontFamily] = {};
+        }
+        
+        // 2. Weight별로 서브그룹핑
+        if (!grouped[item.fontFamily][item.fontWeight]) {
+          grouped[item.fontFamily][item.fontWeight] = {};
+        }
+        
+        // 3. Font Size별로 서브서브그룹핑
+        if (!grouped[item.fontFamily][item.fontWeight][item.fontSize]) {
+          grouped[item.fontFamily][item.fontWeight][item.fontSize] = [];
+        }
+        
+        grouped[item.fontFamily][item.fontWeight][item.fontSize].push(item);
+      });
+      
+      // 정렬: Weight 순서 -> Font Size 순서
+      Object.keys(grouped).forEach(fontFamily => {
+        const weightKeys = Object.keys(grouped[fontFamily]).sort((a, b) => {
+          return parseWeight(a) - parseWeight(b);
+        });
+        
+        const sortedWeights = {};
+        weightKeys.forEach(weight => {
+          const sizeKeys = Object.keys(grouped[fontFamily][weight]).sort((a, b) => {
+            return parseInt(a) - parseInt(b);
+          });
+          
+          sortedWeights[weight] = {};
+          sizeKeys.forEach(size => {
+            sortedWeights[weight][size] = grouped[fontFamily][weight][size];
+          });
+        });
+        
+        grouped[fontFamily] = sortedWeights;
+      });
+      
+      return grouped;
+    }
+    
+    // 폰트 카테고리 토글 기능
+    function toggleCategory(fontFamily) {
+      const content = document.querySelector(`[data-font-family="${fontFamily}"] .font-category-content`);
+      const icon = document.querySelector(`[data-font-family="${fontFamily}"] .collapse-icon`);
+      
+      if (content && icon) {
+        content.classList.toggle('collapsed');
+        icon.classList.toggle('collapsed');
+      }
+    }
+    
+    // Weight 카테고리 토글 기능
+    function toggleWeightCategory(fontFamily, weight) {
+      const content = document.querySelector(`[data-font-family="${fontFamily}"] [data-weight="${weight}"] .weight-category-content`);
+      const icon = document.querySelector(`[data-font-family="${fontFamily}"] [data-weight="${weight}"] .collapse-icon-small`);
+      
+      if (content && icon) {
+        content.classList.toggle('collapsed');
+        icon.classList.toggle('collapsed');
+      }
+    }
+    
+    // Size 카테고리 토글 기능
+    function toggleSizeCategory(fontFamily, weight, size) {
+      const content = document.querySelector(`[data-font-family="${fontFamily}"] [data-weight="${weight}"] [data-size="${size}"] .size-category-content`);
+      const icon = document.querySelector(`[data-font-family="${fontFamily}"] [data-weight="${weight}"] [data-size="${size}"] .collapse-icon-small`);
+      
+      if (content && icon) {
+        content.classList.toggle('collapsed');
+        icon.classList.toggle('collapsed');
+      }
+    }
+    
+    // 특정 텍스트 요소 찾기
+    function findTextElement(x, y) {
+      parent.postMessage({ 
+        pluginMessage: { 
+          type: 'find-text-element', 
+          data: { x, y } 
+        } 
+      }, '*');
+    }
+    
+    // Typography 데이터 렌더링 (3단계 중첩 구조)
     function renderTypography(data) {
       currentData = data;
       
@@ -244,69 +737,145 @@
       totalCountSpan.textContent = data.length;
       summaryDiv.style.display = 'block';
       
-      // 리스트 생성
-      const listHTML = data.map(item => {
-        const colorHex = rgbToHex(item.textColor);
-        const lineHeightStr = typeof item.lineHeight === 'object' ? 
-          `${Math.round(item.lineHeight.value)}${item.lineHeight.unit}` : 
-          item.lineHeight.toString();
-        const letterSpacingStr = typeof item.letterSpacing === 'object' ? 
-          `${item.letterSpacing.value}${item.letterSpacing.unit}` : 
-          item.letterSpacing.toString();
+      // 폰트별 중첩 그룹핑 및 정렬
+      const groupedData = groupAndSortTypography(data);
+      
+      // 카테고리별 HTML 생성
+      const categoriesHTML = Object.keys(groupedData).map(fontFamily => {
+        const weightGroups = groupedData[fontFamily];
+        
+        // 전체 아이템 개수 계산
+        let totalItems = 0;
+        Object.values(weightGroups).forEach(sizeGroups => {
+          Object.values(sizeGroups).forEach(items => {
+            totalItems += items.length;
+          });
+        });
+        
+        // Weight별 서브카테고리 생성
+        const weightCategoriesHTML = Object.keys(weightGroups).map(weight => {
+          const sizeGroups = weightGroups[weight];
+          
+          // Weight별 아이템 개수 계산
+          let weightItems = 0;
+          Object.values(sizeGroups).forEach(items => {
+            weightItems += items.length;
+          });
+          
+          // Size별 서브서브카테고리 생성
+          const sizeCategoriesHTML = Object.keys(sizeGroups).map(size => {
+            const items = sizeGroups[size];
+            
+            // 실제 텍스트 아이템들 생성
+            const finalItemsHTML = items.map(item => {
+              const colorHex = rgbToHex(item.textColor);
+              const lineHeightStr = typeof item.lineHeight === 'object' ? 
+                `${Math.round(item.lineHeight.value)}${item.lineHeight.unit}` : 
+                item.lineHeight.toString();
+              const letterSpacingStr = typeof item.letterSpacing === 'object' ? 
+                `${item.letterSpacing.value}${item.letterSpacing.unit}` : 
+                item.letterSpacing.toString();
+              
+              const textPreview = item.characters.length > 25 ? 
+                item.characters.substring(0, 25) + '...' : 
+                item.characters;
+              
+              return `
+                <div class="typography-item-final">
+                  <div class="typography-main">
+                    <div class="font-details">
+                      <div class="font-detail-item">
+                        <span class="color-swatch" style="background-color: ${colorHex}"></span>
+                        <span>${colorHex}</span>
+                      </div>
+                      <div class="font-detail-item">
+                        <span>LH: ${lineHeightStr}</span>
+                      </div>
+                      <div class="font-detail-item">
+                        <span>LS: ${letterSpacingStr}</span>
+                      </div>
+                    </div>
+                    <div class="font-text">"${textPreview}"</div>
+                  </div>
+                  <div class="typography-meta">
+                    <button class="find-button" onclick="findTextElement(${item.location.x}, ${item.location.y})">
+                      Find
+                    </button>
+                    <div style="margin-top: 4px; font-size: 9px;">
+                      <div><strong>${item.location.layerName}</strong></div>
+                      <div>(${item.location.x}, ${item.location.y})</div>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('');
+            
+            return `
+              <div class="size-category" data-size="${size}">
+                <div class="size-category-header" onclick="toggleSizeCategory('${fontFamily}', '${weight}', '${size}')">
+                  <div class="size-category-info">
+                    <div class="size-category-name">${size}px</div>
+                    <div class="size-category-count">${items.length}</div>
+                  </div>
+                  <svg class="collapse-icon-small" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M4.5 6L8 9.5L11.5 6H4.5Z"/>
+                  </svg>
+                </div>
+                <div class="size-category-content">
+                  ${finalItemsHTML}
+                </div>
+              </div>
+            `;
+          }).join('');
+          
+          return `
+            <div class="weight-category" data-weight="${weight}">
+              <div class="weight-category-header" onclick="toggleWeightCategory('${fontFamily}', '${weight}')">
+                <div class="weight-category-info">
+                  <div class="weight-category-name">${weight}</div>
+                  <div class="weight-category-count">${weightItems}</div>
+                </div>
+                <svg class="collapse-icon-small" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M4.5 6L8 9.5L11.5 6H4.5Z"/>
+                </svg>
+              </div>
+              <div class="weight-category-content">
+                ${sizeCategoriesHTML}
+              </div>
+            </div>
+          `;
+        }).join('');
         
         return `
-          <div class="typography-item">
-            <div class="typography-main">
-              <div class="font-info">
-                ${item.fontFamily} ${item.fontWeight}
+          <div class="font-category" data-font-family="${fontFamily}">
+            <div class="font-category-header" onclick="toggleCategory('${fontFamily}')">
+              <div class="font-category-info">
+                <div class="font-category-name">${fontFamily}</div>
+                <div class="font-category-count">${totalItems}</div>
               </div>
-              <div class="font-details">
-                <span class="color-swatch" style="background-color: ${colorHex}"></span>
-                ${item.fontSize}px / ${lineHeightStr} / ${letterSpacingStr}
+              <div class="font-category-actions">
+                <svg class="collapse-icon" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M4.5 6L8 9.5L11.5 6H4.5Z"/>
+                </svg>
               </div>
-              <div class="font-text">"${item.characters.substring(0, 30)}${item.characters.length > 30 ? '...' : ''}"</div>
             </div>
-            <div class="typography-meta">
-              ${item.location.layerName}<br>
-              (${item.location.x}, ${item.location.y})
+            <div class="font-category-content">
+              ${weightCategoriesHTML}
             </div>
           </div>
         `;
       }).join('');
       
-      containerDiv.innerHTML = `<div class="typography-list">${listHTML}</div>`;
+      containerDiv.innerHTML = `<div class="typography-list">${categoriesHTML}</div>`;
     }
     
-    // CSV 내보내기
-    function exportToCSV(data) {
-      const headers = ['Font Family', 'Font Weight', 'Font Size', 'Line Height', 'Letter Spacing', 'Text Color', 'Text Content', 'Layer Name', 'X', 'Y'];
-      
-      const csvData = data.map(item => [
-        item.fontFamily,
-        item.fontWeight,
-        item.fontSize,
-        typeof item.lineHeight === 'object' ? `${item.lineHeight.value}${item.lineHeight.unit}` : item.lineHeight,
-        typeof item.letterSpacing === 'object' ? `${item.letterSpacing.value}${item.letterSpacing.unit}` : item.letterSpacing,
-        rgbToHex(item.textColor),
-        `"${item.characters.replace(/"/g, '""')}"`,
-        item.location.layerName,
-        item.location.x,
-        item.location.y
-      ]);
-      
-      const csv = [headers, ...csvData].map(row => row.join(',')).join('\n');
-      
-      // 다운로드
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'typography-audit.csv';
-      a.click();
-      URL.revokeObjectURL(url);
-      
-      showStatus('CSV exported successfully!', 'success');
-    }
+    
+    // 전역 함수로 선언 (HTML에서 onclick으로 접근 가능)
+    window.toggleCategory = toggleCategory;
+    window.toggleWeightCategory = toggleWeightCategory;
+    window.toggleSizeCategory = toggleSizeCategory;
+    window.findTextElement = findTextElement;
+    window.closeStatus = closeStatus;
     
     // 플러그인에서 메시지 받기
     window.onmessage = (event) => {
@@ -315,6 +884,20 @@
       if (msg.type === 'typography-extracted') {
         showStatus(`Found ${msg.data.length} text elements`, 'success');
         renderTypography(msg.data);
+      }
+      
+      if (msg.type === 'no-selection-error') {
+        showStatus('Please select frames, sections, or components first', 'error');
+        containerDiv.innerHTML = '<div class="empty-state"><p>No elements selected.</p><p class="subtitle">Please select frames, sections, or components and try "Extract Area" again.</p></div>';
+        summaryDiv.style.display = 'none';
+      }
+      
+      if (msg.type === 'element-found') {
+        if (msg.data.success) {
+          showStatus('Element found and selected!', 'success');
+        } else {
+          showStatus('Element not found', 'error');
+        }
       }
     };
   </script>
